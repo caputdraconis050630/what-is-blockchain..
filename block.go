@@ -12,6 +12,7 @@ type Block struct {
 	Data          []byte
 	PrevBlockHash []byte
 	Hash          []byte
+	Nonce         int
 }
 
 // SetHash calculates and sets block hash
@@ -26,8 +27,16 @@ func (b *Block) SetHash() {
 // NewBlock creates and returns Block
 // 블록을 생성하고, 필요한 데이터를 채운다.
 func NewBlock(data string, prevBlockHash []byte) *Block {
-	block := &Block{time.Now().Unix(), []byte(data), prevBlockHash, []byte{}} // 블록을 생성하고, 필요한 데이터를 채운다.
-	block.SetHash()
+	block := &Block{time.Now().Unix(), []byte(data), prevBlockHash, []byte{}, 0} // 블록을 생성하고, 필요한 데이터를 채운다.
+	// ProofOfWork를 사용하여 블록의 해시값을 계산하기 때문에 SetHash를 통해 설정할 필요가 없어서 주석 처리
+	// block.SetHash()
+
+	pow := NewProofOfWork(block) // ProofOfWork를 생성한다.
+	nonce, hash := pow.Run()     // ProofOfWork를 실행한다.
+
+	block.Hash = hash[:]
+	block.Nonce = nonce
+
 	return block
 }
 
