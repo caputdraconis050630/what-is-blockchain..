@@ -8,11 +8,10 @@ import (
 	"crypto/sha256"
 	"log"
 
-	"golang.org/x/crypto/ripemd160" // Deprecated package
+	"golang.org/x/crypto/ripemd160"
 )
 
 const version = byte(0x00)
-const walletFile = "wallet.dat"
 const addressChecksumLen = 4
 
 type Wallet struct {
